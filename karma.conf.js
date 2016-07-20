@@ -22,6 +22,10 @@ module.exports = function(config) {
         { type: 'html', subdir: '.'},
         { type: 'json', subdir: '.', file: 'coverage.json' }
       ]
-    }
+    },
+    browsers: process.env.KARMA_BROWSERS ?  process.env.KARMA_BROWSERS.split(',') : ['PhantomJS'],
+    reporters: ['mocha'],
+    autoWatch: true,
+    singleRun: false
   });
 };

@@ -167,16 +167,29 @@ var PREDICTIONS = [
     }
 ];
 
-describe('Factory: googlePlacesApi', function () {
-    var googlePlacesApi;
+describe('Factory: googleApiPromise', function () {
+    var googleApiPromise, interval, rootScope;
 
-    beforeEach(module('google.places'));
-    beforeEach(inject(function (_$window_, _googlePlacesApi_) {
-        googlePlacesApi = _googlePlacesApi_;
-    }));
+    beforeEach( function() {
+      module('google.places');
+      window.google = {};
+      inject(function (_$rootScope_, _$interval_, _$window_, _googleApiPromise_) {
+        googleApiPromise = _googleApiPromise_;
+        interval = _$interval_;
+        interval.flush(1000);
+        rootScope = _$rootScope_;
+      });
+    });
 
-    it('should load', function () {
-        expect(googlePlacesApi).toBeDefined();
+    it('should exist', function () {
+        expect(googleApiPromise).toBeDefined();
+    });
+
+    it('should resolve', function (done) {
+        googleApiPromise.then(function(goog){
+          done();
+        });
+        rootScope.$apply();
     });
 });
 
